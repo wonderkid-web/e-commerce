@@ -1,3 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.box {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+  min-height: 100vh;
+}
+
+.card {
+  height: 250px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.box img {
+  width: 70%;
+  height: 55%;
+  z-index: 10;
+  border-radius: 100%;
+}
+
+.sliced {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: -10;
+  clip-path: polygon(0 0, 100% 0, 100% 36%, 0% 60%);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title p {
+  font-size: 10px;
+}
+
+.title {
+  width: 50%;
+}
+.price {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  right: -5px;
+  top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  text-align: center;
+}
+
+.card button {
+  align-self: end;
+  margin-right: 4%;
+  margin-top: 5%;
+  border-radius: 10px;
+  background: purple;
+  padding: 1px 7px;
+  color: white;
+  font-size: 12px;
+}

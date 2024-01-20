@@ -1,7 +1,250 @@
-import React from 'react'
+import React from "react";
+import Image from "next/image";
+import { unstable_noStore } from "next/cache";
+import uuid from "react-uuid";
+import Link from "next/link";
 
-export default function page() {
+//   getData
+const getData = async () => {
+  unstable_noStore();
+  try {
+    const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product`;
+
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // If the response is successful, you can handle the result here
+    const result = await response.json();
+
+    return result;
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error("Error:", error);
+  }
+};
+
+export default async function page() {
+  const data = await getData();
+
+  const randomHexColor = () => {
+    const minColorValue = 10; // Nilai minimum untuk setiap komponen warna (0-255)
+    const maxColorValue = 250; // Nilai maksimum untuk setiap komponen warna (0-255)
+
+    const randomColorComponent = () =>
+      Math.floor(Math.random() * (maxColorValue - minColorValue + 1)) +
+      minColorValue;
+
+    const color = `#${randomColorComponent().toString(
+      16
+    )}${randomColorComponent().toString(16)}${randomColorComponent().toString(
+      16
+    )}`;
+
+    return color;
+  };
+
   return (
-    <div>pembeli</div>
-  )
+    <div className="!p-8">
+      <form className="w-1/2 mx-auto">
+        <label
+          for="default-search"
+          className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+        >
+          Search
+        </label>
+        <div className="relative">
+          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg
+              className="w-4 h-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+          </div>
+          <input
+            type="search"
+            id="default-search"
+            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Cari Nama Produk Kamu..."
+            required
+          />
+          <button
+            type="submit"
+            className="text-white absolute end-2.5 bottom-2.5 bg-indigo-800 hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+
+      <div className="box mt-4">
+        {data?.map((d) => (
+          <div key={uuid()} className="card  shadow-lg text-white ">
+            <div
+              className={`sliced`}
+              style={{ background: randomHexColor() }}
+            ></div>
+            <div className="header">
+              <div className="title !w-[100px] pt-2  ">
+                <h1>Des</h1>
+                <p className="truncate">{d.deskripsi} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident delectus tempore illo necessitatibus vitae. Autem.</p>
+              </div>
+              <div className="price mr-0 bg-[#ffd9cc] text-indigo-800 font-bold">
+                <p className="text-lg">{d.harga/1000}K</p>
+              </div>
+            </div>
+            <img
+              src="https://i.pinimg.com/736x/27/9a/a6/279aa6ae9fe65c86c5bd04c9443b098c.jpg"
+              alt=""
+            />
+
+            <Link
+              href={`/pembeli/produk/${d.id}`}
+              className="rounded-full self-end px-4 mt-4 italic mr-2 !text-[12px]"
+              style={{ background: randomHexColor() }}
+            >
+              Detail Produk
+            </Link>
+          </div>
+        ))}
+
+
+        <div className="card  shadow-lg text-white pb-2">
+          <div
+            className={`sliced`}
+            style={{ background: randomHexColor() }}
+          ></div>
+          <div className="header">
+            <div className="title pt-2 ">
+              <h1>Killua</h1>
+              <p>Lorem ipsum dolor sit amet.</p>
+            </div>
+            <div className="price bg-[#ffd9cc] text-indigo-800 font-bold">
+              <p className="text-lg">20K</p>
+            </div>
+          </div>
+          <img
+            src="https://i.pinimg.com/736x/27/9a/a6/279aa6ae9fe65c86c5bd04c9443b098c.jpg"
+            alt=""
+          />
+
+          <button className="px-3 ">Detail Produk</button>
+        </div>
+        <div className="card  shadow-lg text-white pb-2">
+          <div
+            className={`sliced`}
+            style={{ background: randomHexColor() }}
+          ></div>
+          <div className="header">
+            <div className="title pt-2">
+              <h1>Killua</h1>
+              <p>Lorem ipsum dolor sit amet.</p>
+            </div>
+            <div className="price bg-[#ffd9cc] text-indigo-800 font-bold">
+              <p className="text-lg">20K</p>
+            </div>
+          </div>
+          <img
+            src="https://i.pinimg.com/736x/27/9a/a6/279aa6ae9fe65c86c5bd04c9443b098c.jpg"
+            alt=""
+          />
+
+          <button className="px-3">Detail Produk</button>
+        </div>
+      </div>
+    </div>
+  );
 }
+
+// {data?.map((item) => (
+//         <div
+//           key={uuid()}
+//           className="w-full flex flex-col max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-3 px-5"
+//         >
+//           <Image
+//             className="p-8 rounded-t-lg border-b"
+//             src={nike}
+//             alt="product image"
+//           />
+//           <div className="flex flex-col px-5 pb-5">
+//             <div className="top flex justify-between items-center p-2">
+//               <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+//                 {item.nama_barang}
+//               </h5>
+//               <span className="text-md font-bold text-gray-900 dark:text-white">
+//                 100.000
+//               </span>
+//             </div>
+//             <div className="flex items-center mt-2.5 mb-5">
+//               <div className="flex items-center space-x-1 rtl:space-x-reverse">
+//                 {/* <svg
+//                   className="w-4 h-4 text-yellow-300"
+//                   aria-hidden="true"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   fill="currentColor"
+//                   viewBox="0 0 22 20"
+//                 >
+//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+//                 </svg>
+//                 <svg
+//                   className="w-4 h-4 text-yellow-300"
+//                   aria-hidden="true"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   fill="currentColor"
+//                   viewBox="0 0 22 20"
+//                 >
+//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+//                 </svg>
+//                 <svg
+//                   className="w-4 h-4 text-yellow-300"
+//                   aria-hidden="true"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   fill="currentColor"
+//                   viewBox="0 0 22 20"
+//                 >
+//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+//                 </svg>
+//                 <svg
+//                   className="w-4 h-4 text-yellow-300"
+//                   aria-hidden="true"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   fill="currentColor"
+//                   viewBox="0 0 22 20"
+//                 >
+//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+//                 </svg>
+//                 <svg
+//                   className="w-4 h-4 text-gray-200 dark:text-gray-600"
+//                   aria-hidden="true"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   fill="currentColor"
+//                   viewBox="0 0 22 20"
+//                 >
+//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+//                 </svg> */}
+//                 {item.deskripsi}
+//               </div>
+//             </div>
+//             <div className="flex flex-col items-center justify-between">
+//               <a
+//                 href="#"
+//                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+//               >
+//                 Tambah ke Keranjang
+//               </a>
+//             </div>
+//           </div>
+//         </div>
+//       ))}
