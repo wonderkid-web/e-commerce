@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function page() {
+export default function Page() {
   const { handleSubmit, register, reset } = useForm();
 
   const { data:sessionData } = useSession();

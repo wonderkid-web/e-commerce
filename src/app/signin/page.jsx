@@ -7,7 +7,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export default function page() {
+export default function Page() {
   const { handleSubmit, register } = useForm();
 
   const router = useRouter();

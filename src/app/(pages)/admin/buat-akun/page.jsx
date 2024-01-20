@@ -31,7 +31,7 @@ import { addPenjual } from "@/action";
 import Navbar from "@/components/layout/Navbar";
 
 
-export default function page() {
+export default function Page() {
   const { handleSubmit, register, reset } = useForm();
 
   const router = useRouter()
