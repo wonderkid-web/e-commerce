@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 // components
 import { Input } from "@/components/ui/input";
@@ -25,10 +25,8 @@ import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function page() {
-  const { handleSubmit, register, reset } = useForm();
-
-  const { data:sessionData } = useSession();
+export default function page({params:{id}}) {
+  const { handleSubmit, register, reset, setValue } = useForm();
 
   const router = useRouter();
 
@@ -37,12 +35,12 @@ export default function page() {
       const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`;
 
       const response = await fetch(apiUrl, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           // Add any additional headers if needed
         },
-        body: JSON.stringify({ ...data, nama_penjual: sessionData?.user.nama }),
+        body: JSON.stringify({ ...data }),
       });
 
       if (!response.ok) {
@@ -59,10 +57,16 @@ export default function page() {
     }
   };
 
+  useEffect(()=>{
+    const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`;
+
+
+  },[])
+
   return (
     <section className=" h-max bg-gradient-to-b from-indigo-800 to-whie">
       <Toaster />
-      <div className=" border h-full flex justify-center p-7">
+      <div className="h-full flex justify-center p-7">
         <form
           className=" shadow-md w-3/4 border rounded-xl p-7 bg-white"
           onSubmit={handleSubmit(onSubmit)}
