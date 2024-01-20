@@ -22,14 +22,19 @@ import { FaCamera } from "react-icons/fa";
 
 // library
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const { handleSubmit, register, reset } = useForm();
 
+  const { data:sessionData } = useSession();
+
+  const router = useRouter();
+
   const onSubmit = async (data) => {
     try {
-      const apiUrl =
-        "https://65a8df6a219bfa371867d228.mockapi.io/create-product";
+      const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product`;
 
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -37,17 +42,17 @@ export default function page() {
           "Content-Type": "application/json",
           // Add any additional headers if needed
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, nama_penjual: sessionData?.user.nama }),
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      reset();
 
       // If the response is successful, you can handle the result here
-      const result = await response.json();
-      console.log("Success:", result);
+      await response.json();
+      reset();
+      router.push("/penjual/list-produk");
     } catch (error) {
       // Handle any errors that occurred during the fetch
       console.error("Error:", error);
@@ -172,14 +177,6 @@ export default function page() {
                   type="number"
                   placeholder="Masukan diskon (optional)"
                   {...register("diskon")}
-                />
-              </div>
-              <div>
-                <Label className=" text-slate-600">Nama penjual</Label>
-                <Input
-                  type="text"
-                  placeholder="nama anda"
-                  {...register("nama_penjual")}
                 />
               </div>
             </div>
