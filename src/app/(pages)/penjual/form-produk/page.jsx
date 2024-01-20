@@ -60,11 +60,11 @@ export default function page() {
   };
 
   return (
-    <section className=" h-max bg-gradient-to-b from-indigo-800 to-blue-600">
+    <section className=" h-max bg-gradient-to-b from-indigo-800 to-whie">
       <Toaster />
       <div className=" border h-full flex justify-center p-7">
         <form
-          className=" shadow-sm w-3/4 border rounded-xl p-7 bg-white"
+          className=" shadow-md w-3/4 border rounded-xl p-7 bg-white"
           onSubmit={handleSubmit(onSubmit)}
         >
           <h1 className=" text-indigo-600 text-xl font-medium p-3 text-center border-b mx   -6">
@@ -88,7 +88,7 @@ export default function page() {
               </div>
               <div>
                 <div className=" mr-[300px]">
-                  <FaCamera className=" text-6xl" />
+                  <FaCamera className=" text-6xl text-indigo-800"/>
                 </div>
               </div>
             </div>
