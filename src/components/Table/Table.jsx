@@ -21,7 +21,7 @@ import {
 //   data: TData[]
 // }
 
-export function DataTable({
+export function TableBase({
   columns,
   data,
 }) {
