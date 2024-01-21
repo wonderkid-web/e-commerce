@@ -75,3 +75,29 @@ export const editProduk = async (data,id) => {
     console.error("Error:", error);
   }
 };
+
+export const editPenjual = async (data,id) => {
+  const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/akun/${id}`;
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        // Add any additional headers if needed
+      },
+      body: JSON.stringify({ ...data }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // If the response is successful, you can handle the result here
+    revalidatePath("/admin/list-penjual");
+    return response.json();
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error("Error:", error);
+  }
+};

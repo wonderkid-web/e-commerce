@@ -26,7 +26,7 @@ import { Toaster, toast } from "sonner";
 import Bg from "../../../../../../public/logoo.jpg";
 import Logo from "../../../../../../public/logo.png";
 import { useRouter } from "next/navigation";
-import { addPenjual } from "@/action";
+import { addPenjual, editPenjual } from "@/action";
 import Navbar from "@/components/layout/Navbar";
 
 export default function Page({ params: { id } }) {
@@ -53,8 +53,6 @@ export default function Page({ params: { id } }) {
 
     try {
       toast.loading(`Sedang mengupload foto kamu..`);
-      const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/akun/${id}`;
-
       const res = await fetch(`/api/avatar/upload?filename=${file.name}`, {
         method: "POST",
         body: file,
@@ -65,27 +63,24 @@ export default function Page({ params: { id } }) {
       toast.success(`Upload foto sukses!`);
       toast.loading(`Mengirim data diri penjual ke server`);
 
+      // const response = await fetch(apiUrl, {
+      //   method: "PUT",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     // Add any additional headers if needed
+      //   },
+      //   body: JSON.stringify({ ...data, gambar: url }),
+      // });
 
-      const response = await fetch(apiUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          // Add any additional headers if needed
-        },
-        body: JSON.stringify({ ...data, gambar: url }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      const response = await editPenjual({ ...data, gambar: url }, id);
+      if (response) {
+        reset();
+        toast.success("berhasil di kirim");
+        router.push("/admin/list-penjual");
       }
 
-      // If the response is successful, you can handle the result here
-      await response.json();
-      reset();
-      router.push("/admin/list-penjual");
     } catch (error) {
-      // Handle any errors that occurred during the fetch
-      console.error("Error:", error);
+      toast.error("Gagal Edit Penjual");
     }
   };
 
