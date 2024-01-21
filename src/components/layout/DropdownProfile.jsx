@@ -18,13 +18,13 @@ export default function DropdownProfile() {
 
     const session = useSession()
 
-
+ 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
         {
-            session?.data.user.gambar && <AvatarImage className="object-cover object-center" src={session?.data.user.gambar} alt="@shadcn" />
+            session?.data?.user?.gambar && <AvatarImage className="object-cover object-center" src={session?.data.user.gambar} alt="@shadcn" />
         }
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
