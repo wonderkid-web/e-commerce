@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 // components
 import { Input } from "@/components/ui/input";
@@ -24,14 +24,30 @@ import { FaCamera } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-export default function Page({params:{id}}) {
+export default function Page({ params: { id } }) {
   const { handleSubmit, register, reset, setValue } = useForm();
 
   const router = useRouter();
 
+  const fileInput = useRef(null);
+
   const onSubmit = async (data) => {
+    const file = fileInput.current.files[0];
     try {
+      // alert(JSON.stringify(file, null, 2))
+      toast.loading(`Sedang mengupload foto kamu..`);
+      const res = await fetch(`/api/avatar/upload?filename=${file.name}`, {
+        method: "POST",
+        body: file,
+      });
+
+      const { url } = await res.json();
+
+      toast.success(`Upload foto sukses!`);
+      toast.loading(`Mengirim data diri penjual ke server`);
+
       const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`;
 
       const response = await fetch(apiUrl, {
@@ -40,7 +56,7 @@ export default function Page({params:{id}}) {
           "Content-Type": "application/json",
           // Add any additional headers if needed
         },
-        body: JSON.stringify({ ...data }),
+        body: JSON.stringify({ ...data, gambar: url }),
       });
 
       if (!response.ok) {
@@ -57,20 +73,23 @@ export default function Page({params:{id}}) {
     }
   };
 
-  useEffect(()=>{
-     fetch(`https://65a8df6a219bfa371867d228.mockapi.io/create-product/${id}`)
-     .then((raw) => (raw.json() .then((res) => {
-      setValue('nama_barang' , res.nama_barang)
-        setValue('alamat' , res.alamat)
-        setValue('harga' , res.harga)
-        setValue('stock' , res.stock)
-        setValue('no_hp' , res.no_hp)
-        setValue('ukuran' , res.password)
-        setValue('deskripsi' , res.deskripsi)
-        setValue('ongkir' , res.ongkir)
-        setValue('diskon' , res.diskon)
-     })))
-  },[])
+  useEffect(() => {
+    fetch(
+      `https://65a8df6a219bfa371867d228.mockapi.io/create-product/${id}`
+    ).then((raw) =>
+      raw.json().then((res) => {
+        setValue("nama_barang", res.nama_barang);
+        setValue("alamat", res.alamat);
+        setValue("harga", res.harga);
+        setValue("stock", res.stock);
+        setValue("no_hp", res.no_hp);
+        setValue("ukuran", res.password);
+        setValue("deskripsi", res.deskripsi);
+        setValue("ongkir", res.ongkir);
+        setValue("diskon", res.diskon);
+      })
+    );
+  }, []);
 
   return (
     <section className=" h-max bg-gradient-to-b from-indigo-800 to-whie">
@@ -100,9 +119,13 @@ export default function Page({params:{id}}) {
                 />
               </div>
               <div>
-                <div className=" mr-[300px]">
-                  <FaCamera className=" text-6xl text-indigo-800"/>
-                </div>
+                <Label className="-mt-4 text-slate-600">Foto Produk</Label>
+                <Input
+                  className="h-10"
+                  ref={fileInput}
+                  id="picture"
+                  type="file"
+                />
               </div>
             </div>
 

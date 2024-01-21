@@ -21,7 +21,6 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import uuid from "react-uuid";
 import { Toaster, toast } from "sonner";
-import { upload } from "@vercel/blob/client";
 
 // image public
 import Bg from "../../../../../public/logoo.jpg";

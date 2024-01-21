@@ -42,6 +42,8 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import logo from "/public/logo.png";
+import Image from "next/image";
 
 export function DataTablePenjual({ data }) {
   const [sorting, setSorting] = React.useState([]);
@@ -91,6 +93,15 @@ export function DataTablePenjual({ data }) {
       ),
       enableSorting: false,
       enableHiding: false,
+    },
+    {
+      accessorKey: "gambar",
+      header: () => <p></p>,
+      cell: ({ row }) => (
+        <div className="h-8 w-8 relative">
+          <Image style={{objectFit:'cover', borderRadius: "100%"}} src={row.getValue("gambar") || logo} alt="profile" fill />
+        </div>
+      ),
     },
     ...["nama_barang", "id", "ukuran", 'deskripsi', 'ongkir', 'diskon','harga' ,"alamat", "no_hp",].map((accessorKey) => ({
       accessorKey,

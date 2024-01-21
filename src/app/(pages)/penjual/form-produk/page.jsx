@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 // components
 import { Input } from "@/components/ui/input";
@@ -29,11 +29,25 @@ import Image from "next/image";
 export default function Page() {
   const { handleSubmit, register, reset } = useForm();
 
+  const fileInput = useRef(null);
   const router = useRouter();
 
   const onSubmit = async (data) => {
+    const file = fileInput.current.files[0];
+    // alert(JSON.stringify(file, null, 2))
     try {
-      await addProduk(data);
+      toast.loading(`Sedang mengupload foto kamu..`);
+      const response = await fetch(`/api/avatar/upload?filename=${file.name}`, {
+        method: "POST",
+        body: file,
+      });
+
+      const { url } = await response.json();
+
+      toast.success(`Upload foto sukses!`);
+      toast.loading(`Mengirim data diri penjual ke server`);
+
+      await addProduk({...data, gambar:url});
 
       toast.success("Berhasil menambah produk");
       router.push("/penjual/list-produk");
@@ -53,7 +67,7 @@ export default function Page() {
   return (
     <>
       <Toaster />
-      <section className=" h-max bg-gradient-to-b from-indigo-800 to-whie"> 
+      <section className=" h-max bg-gradient-to-b from-indigo-800 to-whie">
         <div className=" border h-full flex justify-center p-7">
           <form
             className=" shadow-md w-3/4 border rounded-xl p-7 bg-white"
@@ -79,9 +93,10 @@ export default function Page() {
                   />
                 </div>
                 <div>
-                  <div className=" mr-[300px]">
-                    <FaCamera className=" text-6xl text-indigo-800" />
-                  </div>
+                  <Label className="-mt-4 text-slate-600">
+                    Foto Produk
+                  </Label>
+                  <Input className="h-10" ref={fileInput} id="picture" type="file" />
                 </div>
               </div>
 
