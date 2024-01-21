@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 // components
 import { Input } from "@/components/ui/input";
@@ -22,8 +22,9 @@ import { FaCamera } from "react-icons/fa";
 // library
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { toast, Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 import { addProduk } from "@/action";
+import Image from "next/image";
 
 export default function Page() {
   const { handleSubmit, register, reset } = useForm();
@@ -40,7 +41,14 @@ export default function Page() {
       toast.error("gagal menambah produk");
       toast.error(error.message);
     }
+
+    console.log(data);
   };
+
+  // fungsi untuk foto
+
+  const [foto, setFoto] = useState();
+  const onChange = (e) => setFoto(URL.createObjectURL(e.target.files[0]));
 
   return (
     <>

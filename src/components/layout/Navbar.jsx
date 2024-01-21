@@ -3,6 +3,7 @@ import Logo from "../../../public/logo.png"
 import Image from "next/image";
 import Link from "next/link";
 
+
 export default function Navbar() {
   return (
     <div className="flex flex-wrap place-items-center">
