@@ -92,7 +92,7 @@ export function DataTablePenjual({ data }) {
       enableSorting: false,
       enableHiding: false,
     },
-    ...["nama_barang", "id", "ukuran", 'deskripsi', 'ongkir', 'discount','harga' ,"alamat", "no_hp",].map((accessorKey) => ({
+    ...["nama_barang", "id", "ukuran", 'deskripsi', 'ongkir', 'diskon','harga' ,"alamat", "no_hp",].map((accessorKey) => ({
       accessorKey,
       header: ({ column }) => (
         <Button
@@ -160,6 +160,7 @@ export function DataTablePenjual({ data }) {
 
   return (
     <>
+    <h1 className=" text-center text-xl font-semibold text-slate-700">Table penjual</h1>
     <Toaster />
       <div className="w-full">
         <div className="flex items-center py-4">
