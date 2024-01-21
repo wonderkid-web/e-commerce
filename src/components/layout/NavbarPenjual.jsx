@@ -1,7 +1,9 @@
+
 import ButtonLogout from "./ButtonLogout";
 import Logo from "../../../public/logo.png"
 import Image from "next/image";
 import Link from "next/link";
+import DropdownProfile from "./DropdownProfile";
 
 export default function NavbarPenjual() {
   return (
@@ -25,7 +27,7 @@ export default function NavbarPenjual() {
               </li>
             </ul>
             <div className="hidden xl:flex items-center space-x-5">
-              <ButtonLogout />
+              <DropdownProfile />
             </div>
           </div>
         </nav>

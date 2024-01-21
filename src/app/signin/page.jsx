@@ -1,11 +1,10 @@
 "use client";
 
-import { Toaster } from "@/components/ui/toaster";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 
 export default function Page() {
   const { handleSubmit, register } = useForm();
@@ -14,17 +13,20 @@ export default function Page() {
 
   const onSubmit = async (formData) => {
     try {
+      toast.loading("Prosess loading...");
       const signin = await signIn("credentials", {
         ...formData,
         redirect: false,
       });
 
-      console.log(signin);
-
-      if (formData.email.includes("admin")) {
-        router.push("/admin/buat-akun");
-      } else {
-        router.push("/penjual/list-produk");
+      if (signin.ok) {
+        if (formData.email.includes("admin")) {
+          router.push("/admin/buat-akun");
+        } else {
+          router.push("/penjual/list-produk");
+        }
+      }else{
+        throw new Error('Ada yang salah nih')
       }
     } catch (error) {
       toast.error("Gagal Login");
@@ -55,7 +57,10 @@ export default function Page() {
           <div className="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
         </div>
         <div className="flex w-[400px]  md:w-1/2 justify-center py-10 items-center bg-white">
-          <form onSubmit={handleSubmit(onSubmit)} className="bg-white w-[300px]">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="bg-white w-[300px]"
+          >
             <h1 className="text-gray-800 font-bold text-2xl mb-1">
               Hello Kembali!
             </h1>

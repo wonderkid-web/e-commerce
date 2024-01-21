@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { Toaster } from "@/components/ui/toaster";
+
 
 // icons
 import { FaCamera } from "react-icons/fa";
@@ -24,7 +24,8 @@ import { FaCamera } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
+import { editProduk } from "@/action";
 
 export default function Page({ params: { id } }) {
   const { handleSubmit, register, reset, setValue } = useForm();
@@ -48,25 +49,23 @@ export default function Page({ params: { id } }) {
       toast.success(`Upload foto sukses!`);
       toast.loading(`Mengirim data diri penjual ke server`);
 
-      const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`;
+      // const response = await fetch(apiUrl, {
+      //   method: "PUT",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     // Add any additional headers if needed
+      //   },
+      //   body: JSON.stringify({ ...data, gambar: url }),
+      // });
 
-      const response = await fetch(apiUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          // Add any additional headers if needed
-        },
-        body: JSON.stringify({ ...data, gambar: url }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      const response = await editProduk({ ...data, gambar: url }, id);
+      if (response) {
+        reset();
+        toast.success("berhasil di kirim");
+        router.push("/penjual/list-produk");
       }
 
       // If the response is successful, you can handle the result here
-      await response.json();
-      reset();
-      router.push("/penjual/list-produk");
     } catch (error) {
       // Handle any errors that occurred during the fetch
       console.error("Error:", error);

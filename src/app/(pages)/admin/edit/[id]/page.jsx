@@ -1,7 +1,6 @@
-
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 // components
 import { Input } from "@/components/ui/input";
@@ -30,26 +29,42 @@ import { useRouter } from "next/navigation";
 import { addPenjual } from "@/action";
 import Navbar from "@/components/layout/Navbar";
 
-export default function page({ params: { id } }) {
+export default function Page({ params: { id } }) {
   const { handleSubmit, register, reset, setValue } = useForm();
 
   const router = useRouter();
 
+  const fileInput = useRef(null)
+
   useEffect(() => {
-    fetch(`https://65a8df6a219bfa371867d228.mockapi.io/akun/${id}`)
-    .then((raw) =>(raw.json().then((res => {
-        setValue('nama' , res.nama)
-        setValue('email' , res.email)
-        setValue('no_hp' , res.no_hp)
-        setValue('password' , res.password)
-      })))
+    fetch(`https://65a8df6a219bfa371867d228.mockapi.io/akun/${id}`).then(
+      (raw) =>
+        raw.json().then((res) => {
+          setValue("nama", res.nama);
+          setValue("email", res.email);
+          setValue("no_hp", res.no_hp);
+          setValue("password", res.password);
+        })
     );
   }, []);
 
-  
   const onEditData = async (data) => {
+    const file = fileInput.current.files[0];
+
     try {
+      toast.loading(`Sedang mengupload foto kamu..`);
       const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/akun/${id}`;
+
+      const res = await fetch(`/api/avatar/upload?filename=${file.name}`, {
+        method: "POST",
+        body: file,
+      });
+
+      const { url } = await res.json();
+
+      toast.success(`Upload foto sukses!`);
+      toast.loading(`Mengirim data diri penjual ke server`);
+
 
       const response = await fetch(apiUrl, {
         method: "PUT",
@@ -57,7 +72,7 @@ export default function page({ params: { id } }) {
           "Content-Type": "application/json",
           // Add any additional headers if needed
         },
-        body: JSON.stringify({ ...data }),
+        body: JSON.stringify({ ...data, gambar: url }),
       });
 
       if (!response.ok) {
@@ -74,14 +89,12 @@ export default function page({ params: { id } }) {
     }
   };
 
-
   return (
     <>
       <Toaster />
       <Navbar />
       <div className=" grid grid-cols-[50%_50%] h-[100vh]  bg-white border">
         <div className=" p-16">
-          <pre>asd{id}</pre>
           <form
             onSubmit={handleSubmit(onEditData)}
             className=" p-8 shadow rounded-md"
@@ -142,6 +155,12 @@ export default function page({ params: { id } }) {
                   className=" h-10"
                   {...register("password")}
                 />
+              </div>
+              <div>
+                <Label className="mt-2 text-slate-600">
+                  Foto Profile Penjual
+                </Label>
+                <Input ref={fileInput} id="picture" type="file" />
               </div>
             </div>
 

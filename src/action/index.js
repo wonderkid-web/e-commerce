@@ -48,3 +48,30 @@ export const addProduk = async (data) => {
     console.error("Error:", error);
   }
 };
+
+export const editProduk = async (data,id) => {
+  const session = await getServerSession(options);
+  const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`;
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        // Add any additional headers if needed
+      },
+      body: JSON.stringify({ ...data, nama_penjual: session?.user.nama }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // If the response is successful, you can handle the result here
+    revalidatePath("/penjual/list-produk");
+    return response.json();
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error("Error:", error);
+  }
+};
