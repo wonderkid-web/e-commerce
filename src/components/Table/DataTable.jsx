@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {Toaster, toast} from "sonner"
+import { Toaster, toast } from "sonner";
 import {
   CaretSortIcon,
   ChevronDownIcon,
@@ -42,6 +42,8 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import logo from "/public/logo.png";
 
 export function DataTable({ data }) {
   const [sorting, setSorting] = React.useState([]);
@@ -60,11 +62,11 @@ export function DataTable({ data }) {
         }
       );
       if (raw.ok) {
-        toast.success('berhasil menghapus akun penjual dengan id: ', id)
+        toast.success("berhasil menghapus akun penjual dengan id: ", id);
         router.refresh();
       }
     } catch (error) {
-      toast.error('gagal menghapus akun penjual dengan id: ', id)
+      toast.error("gagal menghapus akun penjual dengan id: ", id);
 
       alert("gagal hapus");
     }
@@ -93,7 +95,29 @@ export function DataTable({ data }) {
       enableSorting: false,
       enableHiding: false,
     },
-    ...["nama", "email", "no_hp", "password", "id"].map((accessorKey) => ({
+    {
+      accessorKey: "gambar",
+      header: () => <p></p>,
+      cell: ({ row }) => (
+        <div className="h-8 w-8 relative">
+          <Image style={{objectFit:'cover', borderRadius: "100%"}} src={row.getValue("gambar") || logo} alt="profile" fill />
+        </div>
+      ),
+    },
+    {
+      accessorKey: "nama",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Profile
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ row }) => <span>{row.getValue("nama")}</span>,
+    },
+    ...["email", "no_hp", "password", "id"].map((accessorKey) => ({
       accessorKey,
       header: ({ column }) => (
         <Button
@@ -161,7 +185,7 @@ export function DataTable({ data }) {
 
   return (
     <>
-    <Toaster />
+      <Toaster />
       <div className="w-full">
         <div className="flex items-center py-4">
           <Input

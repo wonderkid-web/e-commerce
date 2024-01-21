@@ -1,6 +1,7 @@
 "use server";
 
 import { options } from "@/app/api/auth/[...nextauth]/options";
+import { put } from "@vercel/blob";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
@@ -42,7 +43,7 @@ export const addProduk = async (data) => {
 
     // If the response is successful, you can handle the result here
     revalidatePath("/penjual/list-produk");
-    return response.json()
+    return response.json();
   } catch (error) {
     // Handle any errors that occurred during the fetch
     console.error("Error:", error);
