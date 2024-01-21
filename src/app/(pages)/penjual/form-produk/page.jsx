@@ -22,40 +22,24 @@ import { FaCamera } from "react-icons/fa";
 
 // library
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { addProduk } from "@/action";
 
-export default function page() {
+export default function Page() {
   const { handleSubmit, register, reset } = useForm();
-
-  const { data:sessionData } = useSession();
 
   const router = useRouter();
 
   const onSubmit = async (data) => {
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`;
+      await addProduk(data);
 
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Add any additional headers if needed
-        },
-        body: JSON.stringify({ ...data, nama_penjual: sessionData?.user.nama }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      // If the response is successful, you can handle the result here
-      await response.json();
-      reset();
+      toast.success("Berhasil menambah produk");
       router.push("/penjual/list-produk");
     } catch (error) {
-      // Handle any errors that occurred during the fetch
-      console.error("Error:", error);
+      toast.error("gagal menambah produk");
+      toast.error(error.message);
     }
   };
 
@@ -88,7 +72,7 @@ export default function page() {
               </div>
               <div>
                 <div className=" mr-[300px]">
-                  <FaCamera className=" text-6xl text-indigo-800"/>
+                  <FaCamera className=" text-6xl text-indigo-800" />
                 </div>
               </div>
             </div>

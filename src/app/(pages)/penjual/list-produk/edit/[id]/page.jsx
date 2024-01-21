@@ -58,9 +58,18 @@ export default function page({params:{id}}) {
   };
 
   useEffect(()=>{
-    const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`;
-
-
+     fetch(`https://65a8df6a219bfa371867d228.mockapi.io/create-product/${id}`)
+     .then((raw) => (raw.json() .then((res) => {
+      setValue('nama_barang' , res.nama_barang)
+        setValue('alamat' , res.alamat)
+        setValue('harga' , res.harga)
+        setValue('stock' , res.stock)
+        setValue('no_hp' , res.no_hp)
+        setValue('ukuran' , res.password)
+        setValue('deskripsi' , res.deskripsi)
+        setValue('ongkir' , res.ongkir)
+        setValue('diskon' , res.diskon)
+     })))
   },[])
 
   return (

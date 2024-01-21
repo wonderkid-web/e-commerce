@@ -91,11 +91,31 @@ export default async function page() {
 
       <div className="grid grid-cols-3 gap-5">
         {data?.map((d) => (
+
           <>
-          <div key={uuid()} className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-            <a
-              className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-              href="#"
+          <div key={uuid()} className="card  shadow-lg text-white ">
+            <div
+              className={`sliced`}
+              style={{ background: randomHexColor() }}
+            ></div>
+            <div className="header">
+              <div className="title !w-[100px] pt-2  ">
+                <h1>Title Here</h1>
+                <p className="truncate">{d.deskripsi} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident delectus tempore illo necessitatibus vitae. Autem.</p>
+              </div>
+              <div className="price mr-0 bg-[#ffd9cc] text-indigo-800 font-bold">
+                <p className="text-lg">{d.harga/1000}K</p>
+              </div>
+            </div>
+            <img
+              src="https://i.pinimg.com/736x/27/9a/a6/279aa6ae9fe65c86c5bd04c9443b098c.jpg"
+              alt=""
+            />
+
+            <Link
+              href={`/pembeli/produk/${d.id}`}
+              className="rounded-full self-end px-4 mt-4 italic mr-2 !text-[12px]"
+              style={{ background: randomHexColor() }}
             >
               <img
                 className="object-cover"
@@ -105,7 +125,7 @@ export default async function page() {
               <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
                 39% OFF
               </span>
-            </a>
+            </Link>
             <div className="mt-4 px-5 pb-5">
               <a href="#">
                 <h5 className="text-xl tracking-tight text-slate-900">

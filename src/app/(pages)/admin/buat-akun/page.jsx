@@ -38,7 +38,6 @@ export default function page() {
 
   const onSubmit = async (formData) => {
     try {
-      
       const res = await addPenjual(formData)
       
       if(res){
