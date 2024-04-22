@@ -41,7 +41,7 @@ export default function Page() {
         <div className="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
           <div>
             <h1 className="text-white font-bold text-4xl font-sans">
-              My-Commerce
+              E-Commerce Minta Kasih
             </h1>
             <p className="text-white mt-1">Jadi lah Penjual yang Dominan!</p>
             <button

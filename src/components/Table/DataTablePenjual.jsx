@@ -103,7 +103,7 @@ export function DataTablePenjual({ data }) {
         </div>
       ),
     },
-    ...["nama_barang", "id", "ukuran", 'deskripsi', 'ongkir', 'diskon','harga' ,"alamat", "no_hp",].map((accessorKey) => ({
+  ...["nama_barang", "id", "ukuran", 'deskripsi', 'ongkir','harga' ,"alamat", "no_hp",].map((accessorKey) => ({
       accessorKey,
       header: ({ column }) => (
         <Button

@@ -12,7 +12,7 @@ export default function NavbarPenjual() {
         <nav className="flex justify-between bg-indigo-800 text-white w-screen">
           <div className="px-5 xl:px-12 py-4 flex w-full items-center">
             <div className="text-lg font-medium flex gap-2 justify-normal items-center  font-heading" href="#">
-              <Image src={Logo} height={30} width={30} alt="logo" /> my-Commerce.
+              <Image src={Logo} height={30} width={30} alt="logo" /> E-Commerce Minta Kasih.
             </div>
             <ul className="hidden md:flex px-4 mx-auto font-medium font-heading space-x-12 relative -left-4">
               <li>

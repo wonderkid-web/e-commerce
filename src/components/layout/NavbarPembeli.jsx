@@ -10,7 +10,7 @@ export default function NavbarPembeli() {
         className="text-3xl flex gap-2 justify-normal items-center font-bold font-heading"
         href="#"
       >
-        <Image src={Logo} height={65} width={65} alt="logo" /> My-Commerce.
+        <Image src={Logo} height={65} width={65} alt="logo" /> E-Commerce Minta Kasih.
       </div>
     </nav>
   );

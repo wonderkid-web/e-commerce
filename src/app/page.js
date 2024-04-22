@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   const hubungiPenjual = () => {
     const template =
-      `Hallo  Admin My-Commerce Saya tertarik untuk menjadi Penjual?`.replace(
+      `Hallo  Admin E-Commerce Minta Kasih Saya tertarik untuk menjadi Penjual?`.replace(
         / /g,
         "%20"
       );
@@ -15,7 +15,7 @@ export default function Home() {
         <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
           <div className="mr-auto place-self-center lg:col-span-7">
             <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">
-              My-Commerce
+              E-Commerce Minta Kasih
             </h1>
             <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
               Sebuah Website juga beli Online untuk UMKM yang didedikasikan
@@ -241,7 +241,7 @@ export default function Home() {
             </h2>
             <p className="mb-4 font-light">
               Terdapat lebih dari ribuan penjual yang sudah terdaftar di
-              My-Commerce.
+              E-Commerce Minta Kasih.
             </p>
             <p className="mb-4 font-medium">
               Dan terus Bertambah setiap hari nya dengan pesat.
@@ -272,7 +272,7 @@ export default function Home() {
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div className="mx-auto max-w-screen-sm text-center">
             <h2 className="mb-4 text-4xl font-extrabold leading-tight text-gray-900 dark:text-white">
-              Ayo Bergabung di My-Commerce
+              Ayo Bergabung di E-Commerce Minta Kasih
             </h2>
             <p className="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">
               Coba menjadi Penjual yang Dominan!

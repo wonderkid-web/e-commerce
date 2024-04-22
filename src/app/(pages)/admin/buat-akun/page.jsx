@@ -84,7 +84,7 @@ export default function Page() {
                 alt="Logo"
               />
               <span className=" text-2xl font-bold text-indigo-600">
-                Jadilah penjual di M-Ecomerce!
+                Jadilah penjual di E-Commerce Minta Kasih!  
               </span>
             </div>
             <span className=" text-xs text-slate-600">

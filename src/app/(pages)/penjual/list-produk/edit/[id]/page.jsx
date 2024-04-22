@@ -80,7 +80,7 @@ export default function Page({ params: { id } }) {
         setValue("nama_barang", res.nama_barang);
         setValue("alamat", res.alamat);
         setValue("harga", res.harga);
-        setValue("stock", res.stock);
+        setValue("Stok", res.Stok);
         setValue("no_hp", res.no_hp);
         setValue("ukuran", res.password);
         setValue("deskripsi", res.deskripsi);
@@ -153,12 +153,12 @@ export default function Page({ params: { id } }) {
                 />
               </div>
               <div>
-                <Label className=" text-slate-600">Stock</Label>
+                <Label className=" text-slate-600">Stok</Label>
                 <Input
                   type="number"
-                  placeholder="stock"
+                  placeholder="Stok"
                   className=" w-[380px] h-10"
-                  {...register("stock")}
+                  {...register("Stok")}
                 />
               </div>
             </div>

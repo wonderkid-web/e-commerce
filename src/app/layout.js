@@ -6,7 +6,7 @@ import AuthProvider from "@/context/AuthProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "E-Commerce",
+  title: " E-Commerce Minta Kasih",
   description: "Langkat Local Commerce",
 };
 

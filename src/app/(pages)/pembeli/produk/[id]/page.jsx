@@ -24,7 +24,11 @@ export default async function page({ params: { id } }) {
   const produk = await getProduk(id);
 
   const hubungiPenjual = () => {
-    const template = `Hallo  Bapak/Ibuk ${produk.nama_penjual} Saya tertarik dengan produk: ${produk.nama_barang} yang ada di Website My-Commerce, apakah masih tersedia?`.replace(/ /g, "%20");
+    const template =
+      `Hallo  Bapak/Ibuk ${produk.nama_penjual} Saya tertarik dengan produk: ${produk.nama_barang} yang ada di Website E-Commerce Minta Kasih, apakah masih tersedia?`.replace(
+        / /g,
+        "%20"
+      );
     return `https://wa.me/6283190655152?text=${template}`;
   };
 
@@ -50,13 +54,13 @@ export default async function page({ params: { id } }) {
           <div className=" mt-9 flex gap-3 items-center justify-between">
             <div className="flex items-center gap-4">
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src="https://cdn.pixabay.com/photo/2017/03/29/04/09/shopping-icon-2184065_1280.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <h1 className="capitalize text-xl">{produk.nama_penjual}</h1>
             </div>
             <div className="p-4 rounded-md bg-indigo-800 text-white font-bold">
-              {produk.stock}
+              {produk.Stok}
             </div>
           </div>
           <div className=" mt-10">
@@ -67,23 +71,21 @@ export default async function page({ params: { id } }) {
           </div>
           <div className=" mt-7">
             <p className=" text-slate-400">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo cum
-              eum voluptate ipsa. Alias eos molestias repellendus aut eligendi
-              accusamus! Accusamus facilis, expedita a error fugit adipisci!
-              Rem, quis! Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit. Obcaecati, doloremque magni. Fugit laborum atque accusantium
-              sint blanditiis placeat cum necessitatibus.
+              {produk.deskripsi}
             </p>
           </div>
           <div className=" flex gap-5 mt-9">
-            <Link href={hubungiPenjual()} className="bg-indigo-800 items-center rounded-md px-4 text-white flex gap-3 h-10 hover:bg-indigo-950">
+            <Link
+              href={hubungiPenjual()}
+              className="bg-indigo-800 items-center rounded-md px-4 text-white flex gap-3 h-10 hover:bg-indigo-950"
+            >
               <IoBagCheckOutline />
               Hubungi Penjual?
             </Link>
           </div>
           <div className=" mt-8">
             <span className=" text-slate-700">
-              create by My-Commerce @copyright
+              create by E-Commerce Minta Kasih @copyright
             </span>
           </div>
         </div>

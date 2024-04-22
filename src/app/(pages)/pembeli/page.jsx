@@ -127,7 +127,7 @@ export default async function page() {
                 </p>
                 <p>
                   <span className="p-4 rounded-md text-white font-bold bg-indigo-900">
-                    {d.stock}
+                    {d.Stok}
                   </span>
                 </p>
               </div>
