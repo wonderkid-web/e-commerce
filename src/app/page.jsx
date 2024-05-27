@@ -1,4 +1,8 @@
 import Link from "next/link";
+import foto1 from "../../public/pertama.jpg"
+import foto2 from "../../public/kedua.jpg"
+import foto3 from "../../public/keempat.jpg"
+import Image from "next/image";
 
 export default function Home() {
   const hubungiPenjual = () => {
@@ -41,13 +45,16 @@ export default function Home() {
             </Link>
           </div>
           <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img
-              src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/business-wallpaper-design-template-fc437fecbcbaa96a4cdd3d0d6ae7bc36_screen.jpg?ts=1583140904"
+            <Image
+              src={foto1}
               alt="mockup"
+              objectFit="cover"
+              objectPosition="center"
             />
           </div>
         </div>
       </section>
+      
       <section className="bg-gray-50 dark:bg-gray-800">
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div className="max-w-screen-md mb-8 lg:mb-16">
@@ -218,21 +225,38 @@ export default function Home() {
             <p>.</p>
           </div>
           <div className="grid grid-cols-2 gap-4 mt-8">
-            <img
+          <div className="w-64 h-64">
+          <Image
+              src={foto2}
+              alt="mockup"
+              objectFit="cover"
+              objectPosition="center"
+            />
+          </div>
+          <div className="w-64 h-64">
+          <Image
+              src={foto3}
+              alt="mockup"
+              objectFit="cover"
+              objectPosition="center"
+            />
+
+          </div>
+            {/* <img
               className="w-full rounded-lg"
               src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
               alt="office content 1"
-            />
-            <img
+            /> */}
+            {/* <img
               className="mt-4 w-full lg:mt-10 rounded-lg"
               src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
               alt="office content 2"
-            />
+            /> */}
           </div>
         </div>
       </section>
 
-      <section className="bg-gray-50 dark:bg-gray-800">
+      {/* <section className="bg-gray-50 dark:bg-gray-800">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <div className="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
             <h2 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">
@@ -266,7 +290,7 @@ export default function Home() {
             </a>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="bg-white dark:bg-gray-900">
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
@@ -277,12 +301,12 @@ export default function Home() {
             <p className="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">
               Coba menjadi Penjual yang Dominan!
             </p>
-            <a
+            {/* <a
               href="#"
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
               Free trial for 30 days
-            </a>
+            </a> */}
           </div>
         </div>
       </section>

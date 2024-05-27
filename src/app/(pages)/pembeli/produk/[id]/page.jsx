@@ -20,16 +20,35 @@ const getProduk = async (id) => {
   return raw.json();
 };
 
+function ubahAngka(stringAngka) {
+  // Cek apakah stringAngka memiliki panjang lebih dari atau sama dengan 3
+  if (stringAngka?.length >= 3) {
+      // Cek apakah tiga digit pertama adalah '628'
+      if (stringAngka?.substring(0, 3) === '628') {
+          // Jika ya, tidak ada yang perlu diubah
+          return stringAngka;
+      } else {
+          // Jika tidak, ubah tiga digit pertama menjadi '628'
+          return '628' + stringAngka?.substring(3);
+      }
+  } else {
+      // Jika panjang string kurang dari 3, kembalikan string tanpa perubahan
+      return stringAngka;
+  }
+}
+
 export default async function page({ params: { id } }) {
   const produk = await getProduk(id);
 
+  const nomor_penjual = ubahAngka(produk.no_hp)
+
   const hubungiPenjual = () => {
     const template =
-      `Hallo  Bapak/Ibuk ${produk.nama_penjual} Saya tertarik dengan produk: ${produk.nama_barang} yang ada di Website E-Commerce Minta Kasih, apakah masih tersedia?`.replace(
+      `Hallo, Saya tertarik dengan produk: ${produk.nama_barang} yang ada di Website E-Commerce Minta Kasih, apakah masih tersedia?`.replace(
         / /g,
         "%20"
       );
-    return `https://wa.me/6283190655152?text=${template}`;
+    return `https://wa.me/${nomor_penjual}?text=${template}`;
   };
 
   function formatRupiah(number) {

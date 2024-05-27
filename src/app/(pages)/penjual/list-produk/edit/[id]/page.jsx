@@ -99,12 +99,12 @@ export default function Page({ params: { id } }) {
           onSubmit={handleSubmit(onSubmit)}
         >
           <h1 className=" text-indigo-600 text-xl font-medium p-3 text-center border-b mx   -6">
-            create product form admin
+            Tambah Produk
           </h1>
 
           {/* basic */}
           <div className=" mt-5 mx-6">
-            <h2 className=" text-xl">Basic detail product</h2>
+            <h2 className=" text-xl">Detail Produk</h2>
 
             {/* one */}
             <div className=" flex items-center justify-between mt-5 ">
@@ -206,20 +206,20 @@ export default function Page({ params: { id } }) {
                   {...register("ongkir")}
                 />
               </div>
-              <div>
+              {/* <div>
                 <Label className=" text-slate-600">Diskon</Label>
                 <Input
                   type="number"
                   placeholder="Masukan diskon (optional)"
                   {...register("diskon")}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
 
-          <div className=" p-6">
+          <div className="p-6">
             <Button className=" mt-7 w-full h-10 bg-indigo-600" type="submit">
-              Save and Submit
+              Simpan
             </Button>
           </div>
         </form>
