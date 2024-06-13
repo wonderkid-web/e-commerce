@@ -95,7 +95,7 @@ export default async function page({ params: { id } }) {
           </div>
           <div className=" flex gap-5 mt-9">
             <Link
-              href={hubungiPenjual(produk.no_hp)}
+              href={hubungiPenjual(`62${produk.no_hp.substr(1)}`)}
               className="bg-indigo-800 items-center rounded-md px-4 text-white flex gap-3 h-10 hover:bg-indigo-950"
             >
               <IoBagCheckOutline />
