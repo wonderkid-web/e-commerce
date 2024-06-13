@@ -1,11 +1,13 @@
-import React from "react";
+"use client"
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { unstable_noStore } from "next/cache";
 import uuid from "react-uuid";
 import Link from "next/link";
 import logo from "/public/logo.png";
 
-//   getData
+// getData
 const getData = async () => {
   unstable_noStore();
   try {
@@ -27,9 +29,26 @@ const getData = async () => {
   }
 };
 
-export default async function page() {
-  const data = await getData();
+export default function Page() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getData();
+      setData(result);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredData = data.filter((item) =>
+    item.nama_barang.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   function formatRupiah(number) {
     return new Intl.NumberFormat("id-ID", {
@@ -37,23 +56,6 @@ export default async function page() {
       currency: "IDR",
     }).format(number);
   }
-
-  // const randomHexColor = () => {
-  //   const minColorValue = 10; // Nilai minimum untuk setiap komponen warna (0-255)
-  //   const maxColorValue = 250; // Nilai maksimum untuk setiap komponen warna (0-255)
-
-  //   const randomColorComponent = () =>
-  //     Math.floor(Math.random() * (maxColorValue - minColorValue + 1)) +
-  //     minColorValue;
-
-  //   const color = `#${randomColorComponent().toString(
-  //     16
-  //   )}${randomColorComponent().toString(16)}${randomColorComponent().toString(
-  //     16
-  //   )}`;
-
-  //   return color;
-  // };
 
   return (
     <div className="!p-8">
@@ -87,21 +89,16 @@ export default async function page() {
             id="default-search"
             className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Cari Nama Produk Kamu..."
+            value={searchTerm}
+            onChange={handleSearchChange}
             required
           />
-          <button
-            type="submit"
-            className="text-white absolute end-2.5 bottom-2.5 bg-indigo-800 hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Search
-          </button>
         </div>
       </form>
 
       <div className="grid grid-cols-3 gap-5">
-        {data?.map((d) => (
+        {filteredData.map((d) => (
           <div
-
             key={uuid()}
             className="hover:scale-105 transition relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
           >
@@ -158,84 +155,3 @@ export default async function page() {
     </div>
   );
 }
-
-// {data?.map((item) => (
-//         <div
-//           key={uuid()}
-//           className="w-full flex flex-col max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-3 px-5"
-//         >
-//           <Image
-//             className="p-8 rounded-t-lg border-b"
-//             src={nike}
-//             alt="product image"
-//           />
-//           <div className="flex flex-col px-5 pb-5">
-//             <div className="top flex justify-between items-center p-2">
-//               <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-//                 {item.nama_barang}
-//               </h5>
-//               <span className="text-md font-bold text-gray-900 dark:text-white">
-//                 100.000
-//               </span>
-//             </div>
-//             <div className="flex items-center mt-2.5 mb-5">
-//               <div className="flex items-center space-x-1 rtl:space-x-reverse">
-//                 {/* <svg
-//                   className="w-4 h-4 text-yellow-300"
-//                   aria-hidden="true"
-//                   xmlns="http://www.w3.org/2000/svg"
-//                   fill="currentColor"
-//                   viewBox="0 0 22 20"
-//                 >
-//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-//                 </svg>
-//                 <svg
-//                   className="w-4 h-4 text-yellow-300"
-//                   aria-hidden="true"
-//                   xmlns="http://www.w3.org/2000/svg"
-//                   fill="currentColor"
-//                   viewBox="0 0 22 20"
-//                 >
-//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-//                 </svg>
-//                 <svg
-//                   className="w-4 h-4 text-yellow-300"
-//                   aria-hidden="true"
-//                   xmlns="http://www.w3.org/2000/svg"
-//                   fill="currentColor"
-//                   viewBox="0 0 22 20"
-//                 >
-//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-//                 </svg>
-//                 <svg
-//                   className="w-4 h-4 text-yellow-300"
-//                   aria-hidden="true"
-//                   xmlns="http://www.w3.org/2000/svg"
-//                   fill="currentColor"
-//                   viewBox="0 0 22 20"
-//                 >
-//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-//                 </svg>
-//                 <svg
-//                   className="w-4 h-4 text-gray-200 dark:text-gray-600"
-//                   aria-hidden="true"
-//                   xmlns="http://www.w3.org/2000/svg"
-//                   fill="currentColor"
-//                   viewBox="0 0 22 20"
-//                 >
-//                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-//                 </svg> */}
-//                 {item.deskripsi}
-//               </div>
-//             </div>
-//             <div className="flex flex-col items-center justify-between">
-//               <a
-//                 href="#"
-//                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-//               >
-//                 Tambah ke Keranjang
-//               </a>
-//             </div>
-//           </div>
-//         </div>
-//       ))}

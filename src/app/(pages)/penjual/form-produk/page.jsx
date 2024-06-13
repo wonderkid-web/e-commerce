@@ -191,7 +191,7 @@ export default function Page() {
 
             <div className=" p-6">
               <Button className=" mt-7 w-full h-10 bg-indigo-600" type="submit">
-                Save and Submit
+                Simpan
               </Button>
             </div>
           </form>
