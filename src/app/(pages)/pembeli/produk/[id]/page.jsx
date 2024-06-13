@@ -42,13 +42,13 @@ export default async function page({ params: { id } }) {
 
   const nomor_penjual = ubahAngka(produk.no_hp)
 
-  const hubungiPenjual = () => {
+  const hubungiPenjual = (nomor) => {
     const template =
       `Hallo, Saya tertarik dengan produk: ${produk.nama_barang} yang ada di Website E-Commerce Minta Kasih, apakah masih tersedia?`.replace(
         / /g,
         "%20"
       );
-    return `https://wa.me/${nomor_penjual}?text=${template}`;
+    return `https://wa.me/${nomor}?text=${template}`;
   };
 
   function formatRupiah(number) {
@@ -95,7 +95,7 @@ export default async function page({ params: { id } }) {
           </div>
           <div className=" flex gap-5 mt-9">
             <Link
-              href={hubungiPenjual()}
+              href={hubungiPenjual(produk.no_hp)}
               className="bg-indigo-800 items-center rounded-md px-4 text-white flex gap-3 h-10 hover:bg-indigo-950"
             >
               <IoBagCheckOutline />
