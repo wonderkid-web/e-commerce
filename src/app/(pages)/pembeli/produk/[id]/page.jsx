@@ -13,9 +13,14 @@ import { Button } from "@/components/ui/button";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { SlBasket } from "react-icons/sl";
 
+export const revalidate = 0;
+
+
 const getProduk = async (id) => {
   const raw = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`,{
+    
+    }
   );
   return raw.json();
 };
