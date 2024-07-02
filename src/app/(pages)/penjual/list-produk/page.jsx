@@ -4,6 +4,8 @@ import { options } from "@/app/api/auth/[...nextauth]/options";
 import { unstable_noStore } from "next/cache";
 import { DataTablePenjual } from "@/components/Table/DataTablePenjual";
 
+export const revalidate = 0
+
 const getData = async () => {
   unstable_noStore();
   const { user } = await getServerSession(options);

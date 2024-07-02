@@ -1,34 +1,25 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // components
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-
-
-// icons
-import { FaCamera } from "react-icons/fa";
 
 // library
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "sonner";
 import { editProduk } from "@/action";
 
+export const revalidate = 0;
+
 export default function Page({ params: { id } }) {
   const { handleSubmit, register, reset, setValue } = useForm();
+  const [selectedOption, setSelectedOption] = useState("");
+  const options = ["Makanan", "Minuman", "Kerajinan Tangan", "Busana"];
 
   const router = useRouter();
 
@@ -58,7 +49,7 @@ export default function Page({ params: { id } }) {
       //   body: JSON.stringify({ ...data, gambar: url }),
       // });
 
-      const response = await editProduk({ ...data, gambar: url }, id);
+      const response = await editProduk({ ...data, gambar: url, type:selectedOption }, id);
       if (response) {
         reset();
         toast.success("berhasil di kirim");
@@ -72,11 +63,19 @@ export default function Page({ params: { id } }) {
     }
   };
 
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
   useEffect(() => {
     fetch(
-      `https://65a8df6a219bfa371867d228.mockapi.io/create-product/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/${id}`, {
+        cache:"no-store"
+      }
     ).then((raw) =>
       raw.json().then((res) => {
+        // console.log(res)
+      
         setValue("nama_barang", res.nama_barang);
         setValue("alamat", res.alamat);
         setValue("harga", res.harga);
@@ -86,6 +85,17 @@ export default function Page({ params: { id } }) {
         setValue("deskripsi", res.deskripsi);
         setValue("ongkir", res.ongkir);
         setValue("diskon", res.diskon);
+        setSelectedOption(res.type)
+      })
+    );
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/create-product/`, {
+        cache:"no-store"
+      }
+    ).then((raw) =>
+      raw.json().then((res) => {
+        console.log(res)
       })
     );
   }, []);
@@ -206,14 +216,20 @@ export default function Page({ params: { id } }) {
                   {...register("ongkir")}
                 />
               </div>
-              {/* <div>
-                <Label className=" text-slate-600">Diskon</Label>
-                <Input
-                  type="number"
-                  placeholder="Masukan diskon (optional)"
-                  {...register("diskon")}
-                />
-              </div> */}
+              <div className="mt-4 border p-2 mx-6 rounded-md">
+                <label htmlFor="selectInput">Pilih Kategori:</label>
+                <select
+                  id="selectInput"
+                  value={selectedOption}
+                  onChange={handleChange}
+                >
+                  {options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 

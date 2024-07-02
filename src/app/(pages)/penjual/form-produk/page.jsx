@@ -27,7 +27,10 @@ import { addProduk } from "@/action";
 import Image from "next/image";
 
 export default function Page() {
-  const { handleSubmit, register, reset } = useForm();
+  const { handleSubmit, register } = useForm();
+  const [foto, setFoto] = useState();
+  const [selectedOption, setSelectedOption] = useState("");
+  const options = ["Makanan", "Minuman", "Kerajinan Tangan", "Busana"];
 
   const fileInput = useRef(null);
   const router = useRouter();
@@ -35,6 +38,7 @@ export default function Page() {
   const onSubmit = async (data) => {
     const file = fileInput.current.files[0];
     // alert(JSON.stringify(file, null, 2))
+
     try {
       toast.loading(`Sedang mengupload foto kamu..`);
       const response = await fetch(`/api/avatar/upload?filename=${file.name}`, {
@@ -47,7 +51,7 @@ export default function Page() {
       toast.success(`Upload foto sukses!`);
       toast.loading(`Mengirim data diri penjual ke server`);
 
-      await addProduk({...data, gambar:url});
+      await addProduk({ ...data, gambar: url, type: selectedOption });
 
       toast.success("Berhasil menambah produk");
       router.push("/penjual/list-produk");
@@ -56,25 +60,26 @@ export default function Page() {
       toast.error(error.message);
     }
 
-    console.log(data);
+    // console.log(data);
   };
 
   // fungsi untuk foto
 
-  const [foto, setFoto] = useState();
-  const onChange = (e) => setFoto(URL.createObjectURL(e.target.files[0]));
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   return (
     <>
       <Toaster />
-      <section className=" h-max bg-gradient-to-b from-indigo-800 to-whie">
+      <section className="h-max bg-gradient-to-b from-indigo-800 to-whie">
         <div className=" border h-full flex justify-center p-7">
           <form
             className=" shadow-md w-3/4 border rounded-xl p-7 bg-white"
             onSubmit={handleSubmit(onSubmit)}
           >
             <h1 className=" text-indigo-600 text-xl font-medium p-3 text-center border-b mx   -6">
-               Tambah Produk
+              Tambah Produk
             </h1>
 
             {/* basic */}
@@ -93,10 +98,13 @@ export default function Page() {
                   />
                 </div>
                 <div>
-                  <Label className="-mt-4 text-slate-600">
-                    Foto Produk
-                  </Label>
-                  <Input className="h-10" ref={fileInput} id="picture" type="file" />
+                  <Label className="-mt-4 text-slate-600">Foto Produk</Label>
+                  <Input
+                    className="h-10"
+                    ref={fileInput}
+                    id="picture"
+                    type="file"
+                  />
                 </div>
               </div>
 
@@ -178,14 +186,21 @@ export default function Page() {
                     {...register("ongkir")}
                   />
                 </div>
-                {/* <div>
-                  <Label className=" text-slate-600">Diskon</Label>
-                  <Input
-                    type="number"
-                    placeholder="Masukan diskon (optional)"
-                    {...register("diskon")}
-                  />
-                </div> */}
+
+                <div className="mt-4 border p-2 mx-6 rounded-md">
+                  <label htmlFor="selectInput">Pilih Kategori:</label>
+                  <select
+                    id="selectInput"
+                    value={selectedOption}
+                    onChange={handleChange}
+                  >
+                    {options.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
 

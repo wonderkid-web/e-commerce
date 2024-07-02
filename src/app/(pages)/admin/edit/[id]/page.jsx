@@ -37,7 +37,7 @@ export default function Page({ params: { id } }) {
   const fileInput = useRef(null)
 
   useEffect(() => {
-    fetch(`https://65a8df6a219bfa371867d228.mockapi.io/akun/${id}`).then(
+    fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/akun/${id}`).then(
       (raw) =>
         raw.json().then((res) => {
           setValue("nama", res.nama);

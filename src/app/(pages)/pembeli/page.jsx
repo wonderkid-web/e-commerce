@@ -31,6 +31,7 @@ const getData = async () => {
 
 export default function Page() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("All");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -46,9 +47,14 @@ export default function Page() {
     setSearchTerm(event.target.value);
   };
 
-  const filteredData = data.filter((item) =>
-    item.nama_barang.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleFilterChange = (category) => {
+    setFilter(category);
+  };
+
+  const filteredData = data?.filter((item) =>
+      item.nama_barang.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((item) => (filter === "All" ? true : item.type === filter));
 
   function formatRupiah(number) {
     return new Intl.NumberFormat("id-ID", {
@@ -59,6 +65,7 @@ export default function Page() {
 
   return (
     <div className="!p-8">
+
       <form className="w-1/2 mx-auto">
         <label
           htmlFor="default-search"
@@ -96,8 +103,26 @@ export default function Page() {
         </div>
       </form>
 
+      <div className="flex justify-center my-4">
+        {["All", "Minuman", "Makanan", "Busana", "Kerajinan Tangan"].map(
+          (category) => (
+            <button
+              key={category}
+              className={`mx-2 px-4 py-2 rounded ${
+                filter === category
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              }`}
+              onClick={() => handleFilterChange(category)}
+            >
+              {category}
+            </button>
+          )
+        )}
+      </div>
+
       <div className="grid grid-cols-3 gap-5">
-        {filteredData.map((d) => (
+        {filteredData?.map((d) => (
           <div
             key={uuid()}
             className="hover:scale-105 transition relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
